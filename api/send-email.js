@@ -1,34 +1,32 @@
-const { Resend } = require('resend');
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-module.exports = async (req, res) => {
-  // מאפשר גישה מהאתר של אנימה (CORS)
-  res.setHeader('Access-Control-Allow-Credentials', true);
+export default async function handler(req, res) {
+  // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Please use POST' });
 
   try {
     const { type, data } = req.body;
-    
-    await resend.emails.send({
-      from: 'THE CMO CLUB <hello@mycmoclub.com>',
-      to: 'danitbensimon@gmail.com',
-      subject: `New ${type} Application: ${data.name || 'New Lead'}`,
-      html: `<p>New submission from <b>${data.name}</b> (${data.email || data.workEmail})</p>`
+
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'THE CMO CLUB <hello@mycmoclub.com>',
+        to: 'danitbensimon@gmail.com',
+        subject: `New submission: ${type}`,
+        html: `<p>New lead from: ${data.email || 'No email'}</p><pre>${JSON.stringify(data, null, 2)}</pre>`
+      })
     });
 
-    return res.status(200).json({ success: true });
+    const result = await response.json();
+    return res.status(200).json({ success: true, id: result.id });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-};
+}
