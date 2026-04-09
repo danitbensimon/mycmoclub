@@ -86,7 +86,7 @@ export const MobileMenu = () => {
                 Apply
               </Link>
               <Link
-                to="/members"
+                to="/login"
                 onClick={closeMenu}
                 className="text-white text-xl font-semibold tracking-wide uppercase hover:text-sky-400 transition-colors border-2 border-white/30 rounded-lg px-4 py-3 mt-4"
               >

@@ -44,7 +44,7 @@ export const DesktopNav = () => {
         Apply
       </Link>
       <Link
-        to="/members"
+        to="/login"
         className="text-white text-xs font-medium box-border caret-transparent inline tracking-[0.6px] leading-4 min-h-0 min-w-0 outline-neutral-950/50 uppercase md:block md:min-h-[auto] md:min-w-[auto] hover:text-sky-400 border-2 border-white/30 px-4 py-2 rounded-lg transition-all hover:border-sky-400"
       >
         Member Log In
