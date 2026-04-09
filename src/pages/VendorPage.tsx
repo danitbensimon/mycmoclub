@@ -228,7 +228,7 @@ export const VendorPage = ({ onApplyClick }: VendorPageProps) => {
               return (
                 <div
                   key={expert.id}
-                  className="bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-800 rounded-2xl p-6 hover:border-sky-600 transition-all hover:shadow-lg hover:shadow-sky-600/20"
+                  className="bg-zinc-900/80 backdrop-blur-sm border-2 border-zinc-800 rounded-2xl p-6 hover:border-sky-600 transition-all hover:shadow-lg hover:shadow-sky-600/20 flex flex-col"
                 >
                   {/* Expert Image */}
                   {expert.imageUrl && (
@@ -295,7 +295,7 @@ export const VendorPage = ({ onApplyClick }: VendorPageProps) => {
                   {/* Apply Button */}
                   <button
                     onClick={onApplyClick}
-                    className="w-full px-6 py-3 bg-white text-zinc-900 font-semibold rounded-full hover:bg-zinc-100 transition-colors shadow-lg"
+                    className="w-full px-6 py-3 bg-white text-zinc-900 font-semibold rounded-full hover:bg-zinc-100 transition-colors shadow-lg mt-auto"
                   >
                     Book a Free 1:1 Session
                   </button>
