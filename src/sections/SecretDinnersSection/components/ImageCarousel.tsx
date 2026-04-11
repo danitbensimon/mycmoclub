@@ -4,13 +4,9 @@ export const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  const images = [
-    "/dinners/dinner-1.jpg",
-    "/dinners/dinner-2.jpg",
-    "/dinners/dinner-3.jpg",
-    "/dinners/dinner-4.jpg",
-    "/dinners/dinner-5.jpg",
-  ];
+  const images = Array.from({ length: 27 }, (_, i) =>
+    `/dinners/dinner-${String(i + 1).padStart(2, "0")}.jpg`
+  );
 
   // One image per slide on all breakpoints so each photo gets its own moment
   const imagesPerSlide = 1;
@@ -57,11 +53,13 @@ export const ImageCarousel = () => {
                 {images.slice(slideIndex * imagesPerSlide, slideIndex * imagesPerSlide + imagesPerSlide).map((image, imgIndex) => (
                   <div
                     key={`${slideIndex}-${imgIndex}`}
-                    className="flex-1 aspect-[16_/_9] md:aspect-[21_/_9] box-border caret-transparent outline-neutral-950/50 overflow-hidden rounded-2xl max-w-full"
+                    className="flex-1 aspect-[4_/_3] box-border caret-transparent outline-neutral-950/50 overflow-hidden rounded-2xl max-w-full"
                   >
                     <img
                       src={image}
                       alt={`CMO Club Dinner ${slideIndex * imagesPerSlide + imgIndex + 1}`}
+                      loading={slideIndex === 0 ? "eager" : "lazy"}
+                      decoding="async"
                       className="box-border caret-transparent h-full w-full object-cover outline-neutral-950/50 hover:scale-105 transition-transform duration-500"
                     />
                   </div>
