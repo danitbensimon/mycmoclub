@@ -8,8 +8,9 @@ export const ImageCarousel = () => {
     `/dinners/dinner-${String(i + 1).padStart(2, "0")}.jpg`
   );
 
-  // One image per slide on all breakpoints so each photo gets its own moment
-  const imagesPerSlide = 1;
+  // Desktop: 3 images per slide, Mobile: 1 image per slide. With 27 photos,
+  // desktop cleanly divides into 9 slides of 3 — no repeats or half-empty slides.
+  const imagesPerSlide = typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 3;
   const totalSlides = Math.ceil(images.length / imagesPerSlide);
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export const ImageCarousel = () => {
                 {images.slice(slideIndex * imagesPerSlide, slideIndex * imagesPerSlide + imagesPerSlide).map((image, imgIndex) => (
                   <div
                     key={`${slideIndex}-${imgIndex}`}
-                    className="flex-1 aspect-[4_/_3] box-border caret-transparent outline-neutral-950/50 overflow-hidden rounded-2xl max-w-full"
+                    className="flex-1 aspect-[3_/_4] box-border caret-transparent outline-neutral-950/50 overflow-hidden rounded-2xl"
                   >
                     <img
                       src={image}
