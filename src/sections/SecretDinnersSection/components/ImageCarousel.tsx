@@ -5,18 +5,11 @@ export const ImageCarousel = () => {
   const [isPaused, setIsPaused] = useState(false);
 
   const images = [
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770795972119-0.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770795972126-1.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770795972132-2.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770795877789-0.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770795877794-1.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770795877798-2.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/assets/b6ef1e760_0f7b331e-a3e3-466d-800e-eabbffb978dd.jpg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/assets/542fee028_3e29dbfa-ae1f-4a90-aedd-729cfcdbcdf4.jpg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/assets/878478746_6c1f72d2-45ec-4f62-9d69-96e919206f2c.jpg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770796148067-0.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770796148075-1.jpeg",
-    "https://c.animaapp.com/mlf9rarde0lMWk/img/uploaded-asset-1770796148124-2.jpeg",
+    "/dinners/dinner-1.jpg",
+    "/dinners/dinner-2.jpg",
+    "/dinners/dinner-3.jpg",
+    "/dinners/dinner-4.jpg",
+    "/dinners/dinner-5.jpg",
   ];
 
   // Desktop: 3 images per slide, Mobile: 1 image per slide
