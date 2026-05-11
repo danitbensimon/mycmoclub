@@ -198,6 +198,17 @@ export const experts: Expert[] = [
     isPublished: true,
   },
   {
+    id: "abraham-lieberman",
+    name: "Abraham Lieberman (ClicksTalent)",
+    domain: "Google PPC, Meta PPC, LinkedIn PPC",
+    shortBio: "Paid advertising expert specializing in Google, Meta, and LinkedIn PPC campaigns for B2B companies.",
+    photoUrl: "",
+    linkedinUrl: "https://www.linkedin.com/in/ab-lieberman/",
+    websiteUrl: "https://www.clickstalent.com",
+    bookingUrl: "https://www.calendly.com/clickstalent",
+    isPublished: true,
+  },
+  {
     id: "michal-gat",
     name: "Michal Gat (Titan Branding)",
     domain: "Brand Strategy, Visual Identity",
