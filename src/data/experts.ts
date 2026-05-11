@@ -197,6 +197,17 @@ export const experts: Expert[] = [
     bookingUrl: "https://calendly.com/lior-7/60min",
     isPublished: true,
   },
+  {
+    id: "michal-gat",
+    name: "Michal Gat (Titan Branding)",
+    domain: "Brand Strategy, Visual Identity",
+    shortBio: "Branding expert helping B2B companies build powerful brand identities and visual strategies.",
+    photoUrl: "",
+    linkedinUrl: "https://www.linkedin.com/in/michal-gat-titan-branding/",
+    websiteUrl: "https://www.linkedin.com/in/michal-gat-titan-branding/",
+    bookingUrl: "https://calendly.com/titanlbranding/zoom-session-with-michal-titan-branding",
+    isPublished: true,
+  },
 ];
 
 // Legacy vendors array — kept empty. All vendors merged into experts above.
