@@ -55,6 +55,7 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,.opt input:focus
 .bio-list{margin:0;padding-left:20px;font-size:17px;color:#E4E4E7}
 .bio-list li{margin:4px 0}
 @media (max-width:520px){.bio{flex-direction:column}}
+.share{margin-top:36px;padding-top:28px;border-top:1px solid var(--line)}
 .consent .opt span{display:flex;gap:14px;align-items:flex-start}
 .consent .opt span::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border:2px solid #A1A1AA;border-radius:6px}
 .consent .opt input:checked+span::before{content:"✓";display:grid;place-items:center;background:#18181B;border-color:#18181B;color:#fff;font:700 16px/1 var(--body)}
@@ -169,6 +170,7 @@ const STEPS=[
  {k:"done"}];
 
 const A={}; let i=0, photo="";
+const SHARE_URL="https://www.mycmoclub.com/gtm-stack/", SHARE_TXT="I added my 2026 growth stack to The CMO Club carousel. Add yours here:";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const total=STEPS.filter(x=>x.q).length;
@@ -197,7 +199,9 @@ function show(){
   } else if(s.k==="done"){
     h=`<div class="eyebrow">Thank you</div><h1>Your stack is in.</h1><p class="lede">I'll tag you when the LinkedIn post goes live.</p>
     ${(A.meet||"").startsWith("Yes")?`<p class="lede" style="margin-top:28px">Pick a time for our 15 minutes.</p>
-    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`:""}`;
+    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`:""}
+    <div class="share"><h2 class="q" style="font-size:24px">Know a funded B2B startup that would be interested?</h2><p class="hint">Send them the survey so their stack gets a slide too.</p>
+    <div class="nav" style="margin-top:0"><a class="btn" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(SHARE_TXT+" "+SHARE_URL)}" target="_blank" rel="noopener">Share on WhatsApp</a><a class="btn" style="text-decoration:none" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHARE_URL)}" target="_blank" rel="noopener">Share on LinkedIn</a><button class="btn" type="button" id="copy">Copy link</button></div></div>`;
   } else {
     h=`<h2 class="q">${esc(s.q)}</h2>${s.h?`<p class="hint">${esc(s.h)}</p>`:""}`;
     const v=A[s.k];
@@ -219,6 +223,7 @@ function show(){
       <p class="hint" id="liok" style="margin-top:16px" ${v==="Use my LinkedIn profile photo"?"":"hidden"}>Got it. We'll use the photo from your LinkedIn profile.</p>`;
   }
   st.innerHTML=h;
+  const cp=$("copy"); if(cp) cp.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(SHARE_URL)}catch(e){const t=document.createElement("textarea");t.value=SHARE_URL;document.body.append(t);t.select();document.execCommand("copy");t.remove()}cp.textContent="Link copied"});
   const inp=st.querySelector("#inp,input:not([type=file])");
   if(inp && s.t!=="many" && s.t!=="cut") inp.focus({preventScroll:true});
   const file=$("file");
