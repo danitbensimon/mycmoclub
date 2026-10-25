@@ -49,6 +49,12 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,.opt input:focus
 .opt span{display:block;font-size:17px;padding:13px 18px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#F5F5F5;cursor:pointer;user-select:none;transition:background .15s,border-color .15s}
 .chips .opt span{border-radius:999px;padding:9px 16px;font-size:16px}
 .opt input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.bio{display:flex;gap:20px;align-items:flex-start;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.bio img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:50% 20%;flex:none;border:1px solid var(--line)}
+.bio-lead{margin:0 0 10px;font-size:17px}
+.bio-list{margin:0;padding-left:20px;font-size:17px;color:#E4E4E7}
+.bio-list li{margin:4px 0}
+@media (max-width:520px){.bio{flex-direction:column}}
 .consent .opt span{display:flex;gap:14px;align-items:flex-start}
 .consent .opt span::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border:2px solid #A1A1AA;border-radius:6px}
 .consent .opt input:checked+span::before{content:"✓";display:grid;place-items:center;background:#18181B;border-color:#18181B;color:#fff;font:700 16px/1 var(--body)}
@@ -157,7 +163,8 @@ const STEPS=[
  {k:"ai",t:"one",q:"Did that AI outreach (emails, LinkedIn or calls) book real meetings for you?",o:["Yes, it's core to our pipeline","Some, alongside humans","Tried it and churned","Haven't tried"]},
  {k:"next",t:"text",q:"Which tool are you adding in 2027?",ph:"Tool name"},
  {k:"quote",t:"long",q:"Finish the sentence for your slide",h:"\"The stack that moved revenue in 2026 was\" (max 140 characters)",ph:"boring: good data, 1 channel, fast follow-up",max:140},
- {k:"consent",t:"consent",q:"Can we feature you in the carousel?",h:"Tick to approve, then submit.",o:"I approve using my LinkedIn profile photo, name, title, company and quote on my slide, and tagging me in the post."},
+ {k:"consent",t:"consent",q:"Can we feature you in the carousel?",h:"Tick to approve.",o:"I approve using my LinkedIn profile photo, name, title, company and quote on my slide, and tagging me in the post."},
+ {k:"meet",t:"meet",q:"Want to compare growth stacks with me?",o:["Yes, let's meet for 15 minutes","Not right now"]},
  {k:"done"}];
 
 const A={}; let i=0, photo="";
@@ -174,7 +181,7 @@ function show(){
   $("back").hidden=i===0||s.k==="done";
   $("next").hidden=s.k==="done";
   $("kbd").hidden=s.t==="long"||s.t==="many"||s.t==="cut"||s.t==="multi"||s.t==="consent"||s.k==="done";
-  $("next").textContent=s.k==="intro"?"Start":(s.k==="consent"?"Submit my stack":"Next");
+  $("next").textContent=s.k==="intro"?"Start":(s.k==="meet"?"Submit my stack":"Next");
   const n=Math.min(Math.max(i,0),total);
   $("bar").style.width=(n/total*100)+"%";
   $("stepn").textContent=(s.k==="intro"||s.k==="done")?"":`QUESTION ${i} OF ${total}`;
@@ -188,8 +195,8 @@ function show(){
     <p style="margin:18px 0 0"><a class="site" href="https://www.mycmoclub.com" target="_blank" rel="noopener">mycmoclub.com</a></p></div></div>`;
   } else if(s.k==="done"){
     h=`<div class="eyebrow">Thank you</div><h1>Your stack is in.</h1><p class="lede">I'll tag you when the LinkedIn post goes live.</p>
-    <p class="lede" style="margin-top:28px">Want to see how your stack compares with other CMOs? Grab 15 minutes with me.</p>
-    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`;
+    ${(A.meet||"").startsWith("Yes")?`<p class="lede" style="margin-top:28px">Pick a time for our 15 minutes.</p>
+    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`:""}`;
   } else {
     h=`<h2 class="q">${esc(s.q)}</h2>${s.h?`<p class="hint">${esc(s.h)}</p>`:""}`;
     const v=A[s.k];
@@ -201,6 +208,7 @@ function show(){
       if(s.other) h+=`<input type="text" id="oth" placeholder="Type your channel" style="margin-top:12px;max-width:560px" value="${isOth?esc(v):""}" ${isOth?"":"hidden"}>`;
     }
     if(s.t==="many") h+=Object.entries(CATS).map(([c,ts])=>`<div class="group"><h3>${esc(c)}</h3><div class="opts chips">${ts.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div></div>`).join("");
+    if(s.t==="meet") h=`<div class="bio"><img src="danit.jpg" alt="Danit Ben Simon" width="96" height="96"><div><p class="bio-lead">I'm Danit Ben Simon, founder of The CMO Club and a B2B growth marketer with <b>8 years</b> in demand gen and ABM at Vendict, Walnut.io, K2view and InfiniGrow.</p><ul class="bio-list"><li><b>$300M</b> in revenue generated</li><li><b>$10M ARR</b> in 6 months with 3 marketers and an army of agents</li><li><b>3 meetings a day</b> booked from emails, LinkedIn and calls</li></ul></div></div><h2 class="q">${esc(s.q)}</h2><div class="opts">${s.o.map(o=>opt("radio",s.k,o,v===o)).join("")}</div>`;
     if(s.t==="consent") h+=`<div class="opts consent">${opt("checkbox",s.k,s.o,!!v)}</div>`;
     if(s.t==="multi") h+=`<div class="opts">${s.o.map(o=>opt("checkbox",s.k,o,(v||[]).includes(o))).join("")}</div>`;
     if(s.t==="cut") h+=`<div class="opts chips cut">${ALL.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div>`;
@@ -226,6 +234,7 @@ function save(){
   const st=$("stage");
   if(s.t==="text"||s.t==="long") A[s.k]=st.querySelector("#inp").value.trim();
   if(s.t==="one"){const c=st.querySelector("input:checked");if(c)A[s.k]=c.value==="Other"?(($("oth")||{}).value||"").trim()||"Other":c.value}
+  if(s.t==="meet"){const c=st.querySelector("input:checked");if(c)A[s.k]=c.value}
   if(s.t==="consent") A[s.k]=st.querySelector("input:checked")?"Approved: LinkedIn photo, name, title, company, quote, tag":"";
   if(s.t==="many"||s.t==="cut"||s.t==="multi") A[s.k]=[...st.querySelectorAll("input:checked")].map(x=>x.value);
   render();
@@ -236,7 +245,7 @@ async function sendHS(){
   const parts=(A.name||"").trim().split(/\s+/), first=parts.shift()||"", last=parts.join(" ");
   const L=(k,v)=>v&&(Array.isArray(v)?v.length:true)?`${k}: ${Array.isArray(v)?v.join(", "):v}`:"";
   const pic=await smallPhoto(photo);
-  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI outreach used",A.aitype),L("AI outreach booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
+  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI outreach used",A.aitype),L("AI outreach booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Wants a meeting",A.meet),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
   const props={firstname:first,lastname:last,email:A.email||"",company:A.company||"",jobtitle:A.role||"",hs_linkedin_url:A.li||"",message:msg};
   const body=JSON.stringify({fields:Object.entries(props).map(([name,value])=>({objectTypeId:"0-1",name,value:String(value)})),context:{pageUri:"https://www.mycmoclub.com/gtm-stack/",pageName:"CMO Club Growth Stack 2026"}});
   for(const h of HS_HOSTS){try{const r=await fetch(`${h}/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,{method:"POST",headers:{"Content-Type":"application/json"},body});if(r.ok)return true}catch(e){}}
@@ -247,8 +256,8 @@ async function go(){
   save();const s=STEPS[i];
   if(s.k==="name"&&!(A.name||"").trim()){$("stage").querySelector("#inp").focus();return}
   if(s.k==="email"&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(A.email||"")){const h=$("stage").querySelector(".hint");if(h){h.textContent="Please add a valid email so I can tag you and send you the post.";h.style.color="var(--hot)"}$("stage").querySelector("#inp").focus();return}
-  if(s.k==="consent"){
-    if(!A.consent){const h=$("stage").querySelector(".hint");if(h){h.textContent="Please tick the box so we can feature you.";h.style.color="var(--hot)"}return}
+  if(s.k==="consent"&&!A.consent){const h=$("stage").querySelector(".hint");if(h){h.textContent="Please tick the box so we can feature you.";h.style.color="var(--hot)"}return}
+  if(s.k==="meet"){
     A.photo="LinkedIn profile photo";
     if(sending)return;sending=true;const b=$("next");b.disabled=true;b.textContent="Sending...";
     const ok=await sendHS();sending=false;b.disabled=false;
