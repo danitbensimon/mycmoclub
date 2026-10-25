@@ -150,7 +150,8 @@ const STEPS=[
  {k:"spend",t:"one",q:"Monthly spend on GTM tools",o:["Under $1K","$1K to $5K","$5K to $15K","$15K+"]},
  {k:"play",t:"long",q:"Which growth play worked best for you in 2026?",h:"Describe it in 1 or 2 sentences.",ph:"Job-change signals → Clay enrichment → 3-step email from the AE within 48 hours"},
  {k:"cut",t:"cut",q:"Which tools did you pay for in 2026 that you're dropping in 2027?",h:"Be honest. This is the part people will read twice."},
- {k:"ai",t:"one",q:"Did an AI SDR or AI agent bring in real pipeline for you?",o:["Yes, it's core to our pipeline","Some, alongside humans","Tried it and churned","Haven't tried"]},
+ {k:"aitype",t:"multi",q:"Which outreach did AI run for you in 2026?",h:"Tick the ones where AI wrote or sent the outreach for you.",o:["Cold emails","LinkedIn messages and connection requests","Phone calls (AI voice agent)","None yet"]},
+ {k:"ai",t:"one",q:"Did that AI outreach (emails, LinkedIn or calls) book real meetings for you?",o:["Yes, it's core to our pipeline","Some, alongside humans","Tried it and churned","Haven't tried"]},
  {k:"next",t:"text",q:"Which tool are you adding in 2027?",ph:"Tool name"},
  {k:"quote",t:"long",q:"Finish the sentence for your slide",h:"\"The stack that moved revenue in 2026 was…\" (max 140 characters)",ph:"…boring. Good data, one channel, fast follow-up.",max:140},
  {k:"consent",t:"one",q:"How can we feature you?",o:["Feature me by name, title, company, photo and quote, and tag me","Use my answers in the aggregated report only"]},
@@ -170,7 +171,7 @@ function show(){
   $("preview").hidden=s.k!=="done";
   $("back").hidden=i===0||s.k==="done";
   $("next").hidden=s.k==="done";
-  $("kbd").hidden=s.t==="long"||s.t==="many"||s.t==="cut"||s.k==="done";
+  $("kbd").hidden=s.t==="long"||s.t==="many"||s.t==="cut"||s.t==="multi"||s.k==="done";
   $("next").textContent=s.k==="intro"?"Start":(s.k==="photo"?"Submit my stack":"Next");
   const n=Math.min(Math.max(i,0),total);
   $("bar").style.width=(n/total*100)+"%";
@@ -198,6 +199,7 @@ function show(){
       if(s.other) h+=`<input type="text" id="oth" placeholder="Type your channel" style="margin-top:12px;max-width:560px" value="${isOth?esc(v):""}" ${isOth?"":"hidden"}>`;
     }
     if(s.t==="many") h+=Object.entries(CATS).map(([c,ts])=>`<div class="group"><h3>${esc(c)}</h3><div class="opts chips">${ts.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div></div>`).join("");
+    if(s.t==="multi") h+=`<div class="opts">${s.o.map(o=>opt("checkbox",s.k,o,(v||[]).includes(o))).join("")}</div>`;
     if(s.t==="cut") h+=`<div class="opts chips cut">${ALL.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div>`;
     if(s.t==="photo") h+=`<div class="opts">${opt("radio","photoSrc","Upload a photo",v==="Upload a photo")}${opt("radio","photoSrc","Use my LinkedIn profile photo",v==="Use my LinkedIn profile photo")}</div>
       <div class="photo" id="up" style="margin-top:18px" ${v==="Upload a photo"?"":"hidden"}><div class="ph" id="ph" style="${photo?`background-image:url(${photo})`:""}"></div><input type="file" id="file" accept="image/*" aria-label="Upload headshot"></div>
@@ -221,7 +223,7 @@ function save(){
   const st=$("stage");
   if(s.t==="text"||s.t==="long") A[s.k]=st.querySelector("#inp").value.trim();
   if(s.t==="one"){const c=st.querySelector("input:checked");if(c)A[s.k]=c.value==="Other"?(($("oth")||{}).value||"").trim()||"Other":c.value}
-  if(s.t==="many"||s.t==="cut") A[s.k]=[...st.querySelectorAll("input:checked")].map(x=>x.value);
+  if(s.t==="many"||s.t==="cut"||s.t==="multi") A[s.k]=[...st.querySelectorAll("input:checked")].map(x=>x.value);
   render();
 }
 const HS_PORTAL="147616801", HS_FORM="15304c79-d9c8-47d3-b50b-84f94606d919", HS_HOSTS=["https://api-eu1.hsforms.com","https://api.hsforms.com"];
@@ -230,7 +232,7 @@ async function sendHS(){
   const parts=(A.name||"").trim().split(/\s+/), first=parts.shift()||"", last=parts.join(" ");
   const L=(k,v)=>v&&(Array.isArray(v)?v.length:true)?`${k}: ${Array.isArray(v)?v.join(", "):v}`:"";
   const pic=await smallPhoto(photo);
-  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR result",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
+  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI outreach used",A.aitype),L("AI outreach booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
   const props={firstname:first,lastname:last,email:A.email||"",company:A.company||"",jobtitle:A.role||"",hs_linkedin_url:A.li||"",message:msg};
   const body=JSON.stringify({fields:Object.entries(props).map(([name,value])=>({objectTypeId:"0-1",name,value:String(value)})),context:{pageUri:"https://www.mycmoclub.com/gtm-stack/",pageName:"CMO Club Growth Stack 2026"}});
   for(const h of HS_HOSTS){try{const r=await fetch(`${h}/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,{method:"POST",headers:{"Content-Type":"application/json"},body});if(r.ok)return true}catch(e){}}
