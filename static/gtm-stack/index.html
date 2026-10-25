@@ -166,14 +166,17 @@ const STEPS=[
  {k:"next",t:"text",q:"Which tool are you adding in 2027?",ph:"Tool name"},
  {k:"quote",t:"long",q:"Finish the sentence for your slide",h:"\"The stack that moved revenue in 2026 was\" (max 140 characters)",ph:"boring: good data, 1 channel, fast follow-up",max:140},
  {k:"consent",t:"consent",q:"Can we feature you in the carousel?",h:"Tick to approve.",o:"I approve using my LinkedIn profile photo, name, title, company and quote on my slide, and tagging me in the post."},
- {k:"meet",t:"meet",q:"Want to compare growth stacks with me?",o:["Yes, let's meet for 15 minutes","Not right now"]},
+ {k:"meet",t:"meet",q:"Is your B2B startup funded, and do you want 15 minutes with me?",o:["Yes, we're a funded B2B startup. Let's meet","Not right now"]},
+ {k:"budget",t:"one",q:"What's your monthly marketing budget?",h:"So I know if I'm the right fit for you.",o:["Above $10,000 a month","Below $10,000 a month"]},
  {k:"done"}];
 
 const A={}; let i=0, photo="";
 const SHARE_URL="https://www.mycmoclub.com/gtm-stack/", SHARE_TXT="I added my 2026 growth stack to The CMO Club carousel. Add yours here:";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const total=STEPS.filter(x=>x.q).length;
+const wantsMeet=()=>(A.meet||"").startsWith("Yes");
+const visible=x=>x.k!=="budget"||wantsMeet();
+const isSubmit=x=>x.k==="budget"||(x.k==="meet"&&!wantsMeet());
 
 function opt(type,name,v,checked){return `<label class="opt"><input type="${type}" name="${name}" value="${esc(v)}" ${checked?"checked":""}><span>${esc(v)}</span></label>`}
 
@@ -184,8 +187,8 @@ function show(){
   $("back").hidden=i===0||s.k==="done";
   $("next").hidden=s.k==="done";
   $("kbd").hidden=s.t==="long"||s.t==="many"||s.t==="cut"||s.t==="multi"||s.t==="consent"||s.k==="done";
-  $("next").textContent=s.k==="intro"?"Start":(s.k==="meet"?"Submit my stack":s.k==="wa"?"Continue":"Next");
-  const n=STEPS.slice(0,i+1).filter(x=>x.q).length;
+  $("next").textContent=s.k==="intro"?"Start":(isSubmit(s)?"Submit my stack":s.k==="wa"?"Continue":"Next");
+  const total=STEPS.filter(x=>x.q&&visible(x)).length, n=STEPS.slice(0,i+1).filter(x=>x.q&&visible(x)).length;
   $("bar").style.width=(n/total*100)+"%";
   $("stepn").textContent=s.q?`QUESTION ${n} OF ${total}`:"";
   let h="";
@@ -198,10 +201,10 @@ function show(){
     <p style="margin:18px 0 0"><a class="site" href="https://www.mycmoclub.com" target="_blank" rel="noopener">mycmoclub.com</a></p></div></div>`;
   } else if(s.k==="done"){
     h=`<div class="eyebrow">Thank you</div><h1>Your stack is in.</h1><p class="lede">I'll tag you when the LinkedIn post goes live.</p>
-    ${(A.meet||"").startsWith("Yes")?`<p class="lede" style="margin-top:28px">Pick a time for our 15 minutes.</p>
-    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`:""}
-    <div class="share"><h2 class="q" style="font-size:24px">Know a funded B2B startup that would be interested?</h2><p class="hint">Send them the survey so their stack gets a slide too.</p>
-    <div class="nav" style="margin-top:0"><a class="btn" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(SHARE_TXT+" "+SHARE_URL)}" target="_blank" rel="noopener">Share on WhatsApp</a><a class="btn" style="text-decoration:none" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHARE_URL)}" target="_blank" rel="noopener">Share on LinkedIn</a><button class="btn" type="button" id="copy">Copy link</button></div></div>`;
+    ${wantsMeet()&&(A.budget||"").startsWith("Below")?`<p class="lede" style="margin-top:28px">Thanks for wanting to meet. Right now I take on clients with a marketing budget above $10,000 a month. Let's stay in touch on LinkedIn.</p>
+    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://www.linkedin.com/in/danitbensimon" target="_blank" rel="noopener">Connect with me on LinkedIn</a></p>`:""}
+    ${wantsMeet()&&(A.budget||"").startsWith("Above")?`<p class="lede" style="margin-top:28px">Pick a time for our 15 minutes.</p>
+    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`:""}`;
   } else {
     h=`<h2 class="q">${esc(s.q)}</h2>${s.h?`<p class="hint">${esc(s.h)}</p>`:""}`;
     const v=A[s.k];
@@ -229,6 +232,7 @@ function show(){
   const file=$("file");
   if(file) file.addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{photo=r.result;$("ph").style.backgroundImage=`url(${photo})`;render()};r.readAsDataURL(f)});
   if(s.t==="photo") st.querySelectorAll("input[name=photoSrc]").forEach(x=>x.addEventListener("change",()=>{A.photo=x.value;$("up").hidden=x.value!=="Upload a photo";$("liok").hidden=x.value==="Upload a photo";if(x.value!=="Upload a photo"){photo="";render()}}));
+  if(s.t==="meet") st.querySelectorAll("input[type=radio]").forEach(x=>x.addEventListener("change",()=>{save();$("next").textContent=isSubmit(s)?"Submit my stack":"Next"}));
   if(s.t==="one") st.querySelectorAll("input[type=radio]").forEach(x=>x.addEventListener("change",()=>{
     const oth=$("oth");
     if(x.value==="Other"&&oth){oth.hidden=false;oth.focus();return}
@@ -252,7 +256,7 @@ async function sendHS(){
   const parts=(A.name||"").trim().split(/\s+/), first=parts.shift()||"", last=parts.join(" ");
   const L=(k,v)=>v&&(Array.isArray(v)?v.length:true)?`${k}: ${Array.isArray(v)?v.join(", "):v}`:"";
   const pic=await smallPhoto(photo);
-  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR means",A.aitype),L("AI SDR booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Wants a meeting",A.meet),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
+  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR means",A.aitype),L("AI SDR booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Wants a meeting",A.meet),L("Monthly marketing budget",A.budget),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
   const props={firstname:first,lastname:last,email:A.email||"",company:A.company||"",jobtitle:A.role||"",hs_linkedin_url:A.li||"",message:msg};
   const body=JSON.stringify({fields:Object.entries(props).map(([name,value])=>({objectTypeId:"0-1",name,value:String(value)})),context:{pageUri:"https://www.mycmoclub.com/gtm-stack/",pageName:"CMO Club Growth Stack 2026"}});
   for(const h of HS_HOSTS){try{const r=await fetch(`${h}/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,{method:"POST",headers:{"Content-Type":"application/json"},body});if(r.ok)return true}catch(e){}}
@@ -264,17 +268,17 @@ async function go(){
   if(s.k==="name"&&!(A.name||"").trim()){$("stage").querySelector("#inp").focus();return}
   if(s.k==="email"&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(A.email||"")){const h=$("stage").querySelector(".hint");if(h){h.textContent="Please add a valid email so I can tag you and send you the post.";h.style.color="var(--hot)"}$("stage").querySelector("#inp").focus();return}
   if(s.k==="consent"&&!A.consent){const h=$("stage").querySelector(".hint");if(h){h.textContent="Please tick the box so we can feature you.";h.style.color="var(--hot)"}return}
-  if(s.k==="meet"){
-    A.photo="LinkedIn profile photo";
+  if(isSubmit(s)){
+    A.photo="LinkedIn profile photo";if(!wantsMeet())delete A.budget;
     if(sending)return;sending=true;const b=$("next");b.disabled=true;b.textContent="Sending...";
     const ok=await sendHS();sending=false;b.disabled=false;
     if(!ok){b.textContent="Submit my stack";const h=$("stage").querySelector(".hint");if(h){h.textContent="Something went wrong sending your answers. Please try again in a moment.";h.style.color="var(--hot)"}return}
   }
-  if(i<STEPS.length-1){i++;show()}
+  if(i<STEPS.length-1){do{i++}while(i<STEPS.length-1&&!visible(STEPS[i]));show()}
 }
 
 $("f").addEventListener("submit",e=>{e.preventDefault();go()});
-$("back").addEventListener("click",()=>{save();if(i>0){i--;show()}});
+$("back").addEventListener("click",()=>{save();if(i>0){do{i--}while(i>0&&!visible(STEPS[i]));show()}});
 $("stage").addEventListener("input",e=>{
   if(e.target.id==="qc")return;
   const c=$("qc");if(c&&e.target.id==="inp")c.textContent=e.target.value.length;
