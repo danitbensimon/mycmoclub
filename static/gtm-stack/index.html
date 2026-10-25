@@ -49,6 +49,9 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,.opt input:focus
 .opt span{display:block;font-size:17px;padding:13px 18px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#F5F5F5;cursor:pointer;user-select:none;transition:background .15s,border-color .15s}
 .chips .opt span{border-radius:999px;padding:9px 16px;font-size:16px}
 .opt input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.consent .opt span{display:flex;gap:14px;align-items:flex-start}
+.consent .opt span::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border:2px solid #A1A1AA;border-radius:6px}
+.consent .opt input:checked+span::before{content:"✓";display:grid;place-items:center;background:#18181B;border-color:#18181B;color:#fff;font:700 16px/1 var(--body)}
 .cut .opt input:checked+span{background:#0071E3;border-color:#0071E3;color:#fff}
 .group{margin-bottom:18px}
 .group h3{margin:0 0 8px;font:500 16px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
@@ -198,7 +201,7 @@ function show(){
       if(s.other) h+=`<input type="text" id="oth" placeholder="Type your channel" style="margin-top:12px;max-width:560px" value="${isOth?esc(v):""}" ${isOth?"":"hidden"}>`;
     }
     if(s.t==="many") h+=Object.entries(CATS).map(([c,ts])=>`<div class="group"><h3>${esc(c)}</h3><div class="opts chips">${ts.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div></div>`).join("");
-    if(s.t==="consent") h+=`<div class="opts">${opt("checkbox",s.k,s.o,!!v)}</div>`;
+    if(s.t==="consent") h+=`<div class="opts consent">${opt("checkbox",s.k,s.o,!!v)}</div>`;
     if(s.t==="multi") h+=`<div class="opts">${s.o.map(o=>opt("checkbox",s.k,o,(v||[]).includes(o))).join("")}</div>`;
     if(s.t==="cut") h+=`<div class="opts chips cut">${ALL.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div>`;
     if(s.t==="photo") h+=`<div class="opts">${opt("radio","photoSrc","Upload a photo",v==="Upload a photo")}${opt("radio","photoSrc","Use my LinkedIn profile photo",v==="Use my LinkedIn profile photo")}</div>
