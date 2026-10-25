@@ -184,7 +184,9 @@ function show(){
     <div class="meta"><span>⏱ 3 minutes</span><span>This is for a LinkedIn post. I'll tag you in it.</span></div>
     <p style="margin:18px 0 0"><a class="site" href="https://www.mycmoclub.com" target="_blank" rel="noopener">mycmoclub.com</a></p></div></div>`;
   } else if(s.k==="done"){
-    h=`<div class="eyebrow">Thank you</div><h1>Your stack is in.</h1><p class="lede">I'll tag you when the LinkedIn post goes live.</p>`;
+    h=`<div class="eyebrow">Thank you</div><h1>Your stack is in.</h1><p class="lede">I'll tag you when the LinkedIn post goes live.</p>
+    <p class="lede" style="margin-top:28px">Want to see how your stack compares with other CMOs? Grab 15 minutes with me.</p>
+    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`;
   } else {
     h=`<h2 class="q">${esc(s.q)}</h2>${s.h?`<p class="hint">${esc(s.h)}</p>`:""}`;
     const v=A[s.k];
