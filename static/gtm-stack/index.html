@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>2026 Stack That Booked Meetings</title>
+<title>2026 Growth Stack</title>
 <style>
 /* Layout: one question per screen, light single theme, host bar (Danit + The CMO Club) on top, live slide preview beside */
 :root{
@@ -106,10 +106,9 @@ aside{display:grid;gap:10px;width:100%;max-width:360px}
 <aside aria-label="Your carousel slide preview" id="preview" hidden>
   <div class="eyebrow">Your slide preview</div>
   <div class="slide">
-    <div class="s-top"><span>GTM STACK 2026</span><span id="s-stage">·</span></div>
+    <div class="s-top"><span>GROWTH STACK 2026</span><span id="s-stage">·</span></div>
     <div class="s-who"><div class="s-face" id="s-face">?</div><div><div class="s-name" id="s-name">Your name</div><div class="s-role" id="s-role">Title · Company</div></div></div>
-    <div><div class="s-label">Best meeting tool</div><div class="s-hero" id="s-hero">Your tool</div></div>
-    <div><div class="s-label">Stack that paid back</div><div class="s-chips" id="s-chips"></div></div>
+    <div><div class="s-label">My 2026 growth stack</div><div class="s-chips" id="s-chips"></div></div>
     <div class="s-quote" id="s-quote">"The stack that moved revenue in 2026 was…"</div>
   </div>
   <div class="cap">This is roughly how you'll appear in the carousel.</div>
@@ -129,7 +128,9 @@ const CATS={
  "LinkedIn":["Sales Navigator","HeyReach","Expandi","Dripify","Taplio"],
  "AI SDR & agents":["11x","Artisan","AiSDR","Qualified Piper","Custom Claude / GPT workflows"],
  "CRM & ops":["HubSpot","Salesforce","Attio","Pipedrive"],
- "Calls & scheduling":["Gong","Fathom","Chili Piper","Calendly","Default"]};
+ "Calls & scheduling":["Gong","Fathom","Chili Piper","Calendly","Default"],
+ "Ads & ABM":["LinkedIn Ads","Google Ads","Meta Ads","Demandbase","RollWorks","Metadata.io"],
+ "Content & website":["Webflow","HubSpot CMS","Mutiny","GA4","Hotjar","Canva"]};
 const ALL=Object.values(CATS).flat();
 
 const STEPS=[
@@ -142,10 +143,9 @@ const STEPS=[
  {k:"stage",t:"one",q:"Company stage",o:["Bootstrapped","Seed","Series A","Series B","Series C+","Public / Enterprise"]},
  {k:"motion",t:"one",q:"Your GTM motion",o:["Sales-led","Product-led","Hybrid","Founder-led sales"]},
  {k:"acv",t:"one",q:"Average deal size (ACV)",o:["Under $10K","$10K to $30K","$30K to $100K","$100K+"]},
- {k:"hero",t:"text",q:"Your best tool for booking meetings in 2026",h:"If you could keep only one, which would it be? This becomes the headline of your slide.",ph:"e.g. Clay"},
- {k:"stack",t:"many",q:"Tick every tool that directly produced meetings or pipeline",h:"Only the ones that paid back. Not everything you pay for."},
+ {k:"stack",t:"many",q:"Which tools drove your growth in 2026?",h:"Tick the tools that paid back in pipeline, revenue or growth. This list becomes your slide."},
  {k:"other",t:"text",q:"Any tool we missed?",h:"Separate with commas. Skip if none.",ph:"Tool A, Tool B"},
- {k:"channel",t:"one",q:"Which channel drove the most meetings?",o:["Cold email","LinkedIn outbound","Signal-based outbound","Inbound / content","Events & webinars","Paid ads","Partners & referrals","Warm intros / community"],other:true},
+ {k:"channel",t:"one",q:"Which channel drove the most growth?",o:["Cold email","LinkedIn outbound","Signal-based outbound","Inbound / content","Events & webinars","Paid ads","Partners & referrals","Warm intros / community"],other:true},
  {k:"mtg",t:"one",q:"Meetings per month from this stack",o:["Under 10","10 to 25","25 to 50","50 to 100","100+"]},
  {k:"spend",t:"one",q:"Monthly spend on GTM tools",o:["Under $1K","$1K to $5K","$5K to $15K","$15K+"]},
  {k:"play",t:"long",q:"Play that worked best",h:"Describe it in 1 or 2 sentences.",ph:"Job-change signals → Clay enrichment → 3-step email from the AE within 48 hours"},
@@ -177,10 +177,10 @@ function show(){
   $("stepn").textContent=(s.k==="intro"||s.k==="done")?"":`QUESTION ${i} OF ${total}`;
   let h="";
   if(s.k==="intro"){
-    h=`<div class="intro"><video src="cmo-video.mp4" poster="cmo-poster.jpg" controls playsinline preload="metadata" aria-label="A message from Danit about the 2026 GTM stack post"></video>
-    <div><div class="eyebrow">GTM Stack Report · 2026</div>
-    <h1>Which stack <em>booked</em> meetings and revenue this year?</h1>
-    <p class="lede">Share the tools that filled your pipeline this year. You'll get your own slide in a LinkedIn carousel.</p>
+    h=`<div class="intro"><video src="cmo-video.mp4" poster="cmo-poster.jpg" controls playsinline preload="metadata" aria-label="A message from Danit about the 2026 growth stack post"></video>
+    <div><div class="eyebrow">Growth Stack Report · 2026</div>
+    <h1>Which stack <em>drove</em> your growth this year?</h1>
+    <p class="lede">Share the tools that drove your growth this year. You'll get your own slide in a LinkedIn carousel.</p>
     <div class="meta"><span>⏱ 3 minutes</span><span>This is for a LinkedIn post. I'll tag you in it.</span></div>
     <p style="margin:18px 0 0"><a class="site" href="https://www.mycmoclub.com" target="_blank" rel="noopener">mycmoclub.com</a></p></div></div>`;
   } else if(s.k==="done"){
@@ -230,9 +230,9 @@ async function sendHS(){
   const parts=(A.name||"").trim().split(/\s+/), first=parts.shift()||"", last=parts.join(" ");
   const L=(k,v)=>v&&(Array.isArray(v)?v.length:true)?`${k}: ${Array.isArray(v)?v.join(", "):v}`:"";
   const pic=await smallPhoto(photo);
-  const msg=["[CMO Club GTM Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Best meeting tool",A.hero),L("Stack that paid back",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR result",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
+  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR result",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
   const props={firstname:first,lastname:last,email:A.email||"",company:A.company||"",jobtitle:A.role||"",hs_linkedin_url:A.li||"",message:msg};
-  const body=JSON.stringify({fields:Object.entries(props).map(([name,value])=>({objectTypeId:"0-1",name,value:String(value)})),context:{pageUri:"https://www.mycmoclub.com/gtm-stack/",pageName:"CMO Club GTM Stack 2026"}});
+  const body=JSON.stringify({fields:Object.entries(props).map(([name,value])=>({objectTypeId:"0-1",name,value:String(value)})),context:{pageUri:"https://www.mycmoclub.com/gtm-stack/",pageName:"CMO Club Growth Stack 2026"}});
   for(const h of HS_HOSTS){try{const r=await fetch(`${h}/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,{method:"POST",headers:{"Content-Type":"application/json"},body});if(r.ok)return true}catch(e){}}
   return false;
 }
@@ -268,7 +268,6 @@ function render(){
   $("s-name").textContent=n||"Your name";
   $("s-role").textContent=[A.role||"Title",A.company||"Company"].join(" · ");
   $("s-stage").textContent=A.stage||"·";
-  $("s-hero").textContent=A.hero||"Your tool";
   const f=$("s-face");
   if(photo){f.style.backgroundImage=`url(${photo})`;f.textContent=""}else{f.style.backgroundImage="";f.textContent=(n[0]||"?").toUpperCase()}
   const picks=(A.stack||[]).concat((A.other||"").split(",").map(x=>x.trim()).filter(Boolean));
