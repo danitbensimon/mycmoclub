@@ -166,8 +166,8 @@ const STEPS=[
  {k:"next",t:"text",q:"Which tool are you adding in 2027?",ph:"Tool name"},
  {k:"quote",t:"long",q:"Finish the sentence for your slide",h:"\"The stack that moved revenue in 2026 was\" (max 140 characters)",ph:"boring: good data, 1 channel, fast follow-up",max:140},
  {k:"consent",t:"consent",q:"Can we feature you in the carousel?",h:"Tick to approve.",o:"I approve using my LinkedIn profile photo, name, title, company and quote on my slide, and tagging me in the post."},
- {k:"meet",t:"meet",q:"Is your B2B startup funded, and do you want 15 minutes with me?",o:["Yes, we're a funded B2B startup. Let's meet","Not right now"]},
- {k:"budget",t:"one",q:"What's your monthly marketing budget?",h:"So I know if I'm the right fit for you.",o:["Above $10,000 a month","Below $10,000 a month"]},
+ {k:"meet",t:"meet",q:"Want to swap notes on your growth stack?",h:"I keep a few 15-minute slots for funded B2B startups.",o:["Yes, let's talk","Not now"]},
+ {k:"budget",t:"one",q:"What's your monthly marketing budget?",h:"So I come prepared.",o:["Above $10,000 a month","Below $10,000 a month"]},
  {k:"done"}];
 
 const A={}; let i=0, photo="";
@@ -201,10 +201,8 @@ function show(){
     <p style="margin:18px 0 0"><a class="site" href="https://www.mycmoclub.com" target="_blank" rel="noopener">mycmoclub.com</a></p></div></div>`;
   } else if(s.k==="done"){
     h=`<div class="eyebrow">Thank you</div><h1>Your stack is in.</h1><p class="lede">I'll tag you when the LinkedIn post goes live.</p>
-    ${wantsMeet()&&(A.budget||"").startsWith("Below")?`<p class="lede" style="margin-top:28px">Thanks for wanting to meet. Right now I take on clients with a marketing budget above $10,000 a month. Let's stay in touch on LinkedIn.</p>
-    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://www.linkedin.com/in/danitbensimon" target="_blank" rel="noopener">Connect with me on LinkedIn</a></p>`:""}
-    ${wantsMeet()&&(A.budget||"").startsWith("Above")?`<p class="lede" style="margin-top:28px">Pick a time for our 15 minutes.</p>
-    <p style="margin:20px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">Book 15 minutes with me</a></p>`:""}`;
+    ${wantsMeet()&&(A.budget||"").startsWith("Above")?`<p class="lede" style="margin-top:20px">Here's <a class="site" href="https://meetings-eu1.hubspot.com/dben-simon" target="_blank" rel="noopener">my calendar</a> for our 15 minutes.</p>`:""}
+    ${wantsMeet()&&(A.budget||"").startsWith("Below")?`<p class="lede" style="margin-top:20px">Right now I work with teams that spend above $10,000 a month on marketing.</p><p class="lede" style="margin-top:8px">Let's keep in touch on <a class="site" href="https://www.linkedin.com/in/danitbensimon" target="_blank" rel="noopener">LinkedIn</a>.</p>`:""}`;
   } else {
     h=`<h2 class="q">${esc(s.q)}</h2>${s.h?`<p class="hint">${esc(s.h)}</p>`:""}`;
     const v=A[s.k];
@@ -216,7 +214,7 @@ function show(){
       if(s.other) h+=`<input type="text" id="oth" placeholder="Type your channel" style="margin-top:12px;max-width:560px" value="${isOth?esc(v):""}" ${isOth?"":"hidden"}>`;
     }
     if(s.t==="many") h+=Object.entries(CATS).map(([c,ts])=>`<div class="group"><h3>${esc(c)}</h3><div class="opts chips">${ts.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div></div>`).join("");
-    if(s.t==="meet") h=`<div class="bio"><img src="danit.jpg" alt="Danit Ben Simon" width="96" height="96"><div><p class="bio-lead">I'm Danit Ben Simon, founder of The CMO Club and a B2B growth marketer with <b>8 years</b> in demand gen and ABM at Vendict, Walnut.io, K2view and InfiniGrow.</p><ul class="bio-list"><li><b>$300M</b> in revenue generated</li><li><b>$10M ARR</b> in 6 months with 3 marketers and an army of agents</li><li><b>3 meetings a day</b> booked from emails, LinkedIn and calls</li></ul></div></div><h2 class="q">${esc(s.q)}</h2><div class="opts">${s.o.map(o=>opt("radio",s.k,o,v===o)).join("")}</div>`;
+    if(s.t==="meet") h=`<div class="bio"><img src="danit.jpg" alt="Danit Ben Simon" width="96" height="96"><div><p class="bio-lead">I'm Danit, founder of The CMO Club, and after <b>8 years</b> running demand gen and ABM at B2B startups like Vendict, Walnut.io and K2view, I'm collecting what works for marketing leaders in 2026.</p></div></div><h2 class="q">${esc(s.q)}</h2><p class="hint">${esc(s.h)}</p><div class="opts">${s.o.map(o=>opt("radio",s.k,o,v===o)).join("")}</div>`;
     if(s.t==="wa") h=`<div class="eyebrow">CMO Club community</div><h2 class="q">Not in our WhatsApp community yet?</h2><p class="hint">This is the time to join. Then come back to finish your stack.</p><p style="margin:8px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://chat.whatsapp.com/DHpwlI67VeiFbwKsjgWK7s?mode=gi_t" target="_blank" rel="noopener">Join CMO Club on WhatsApp</a></p>`;
     if(s.t==="consent") h+=`<div class="opts consent">${opt("checkbox",s.k,s.o,!!v)}</div>`;
     if(s.t==="multi") h+=`<div class="opts">${s.o.map(o=>opt("checkbox",s.k,o,(v||[]).includes(o))).join("")}</div>`;
