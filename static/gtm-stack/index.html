@@ -154,6 +154,7 @@ const STEPS=[
  {k:"acv",t:"one",q:"Average deal size (ACV)",o:["Under $10K","$10K to $30K","$30K to $100K","$100K+"]},
  {k:"stack",t:"many",q:"Which tools drove your growth in 2026?",h:"Tick the tools that paid back in pipeline, revenue or growth. This list becomes your slide."},
  {k:"other",t:"text",q:"Any tool we missed?",h:"Separate with commas. Skip if none.",ph:"Tool A, Tool B"},
+ {k:"wa",t:"wa"},
  {k:"channel",t:"one",q:"Which channel drove the most growth?",o:["Cold email","LinkedIn outbound","Signal-based outbound","Inbound / content","Events & webinars","Paid ads","Partners & referrals","Warm intros / community"],other:true},
  {k:"mtg",t:"one",q:"How many meetings a month do the tools you ticked bring in?",o:["Under 10","10 to 25","25 to 50","50 to 100","100+"]},
  {k:"spend",t:"one",q:"Monthly spend on GTM tools",o:["Under $1K","$1K to $5K","$5K to $15K","$15K+"]},
@@ -170,7 +171,7 @@ const STEPS=[
 const A={}; let i=0, photo="";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const total=STEPS.length-2;
+const total=STEPS.filter(x=>x.q).length;
 
 function opt(type,name,v,checked){return `<label class="opt"><input type="${type}" name="${name}" value="${esc(v)}" ${checked?"checked":""}><span>${esc(v)}</span></label>`}
 
@@ -181,10 +182,10 @@ function show(){
   $("back").hidden=i===0||s.k==="done";
   $("next").hidden=s.k==="done";
   $("kbd").hidden=s.t==="long"||s.t==="many"||s.t==="cut"||s.t==="multi"||s.t==="consent"||s.k==="done";
-  $("next").textContent=s.k==="intro"?"Start":(s.k==="meet"?"Submit my stack":"Next");
-  const n=Math.min(Math.max(i,0),total);
+  $("next").textContent=s.k==="intro"?"Start":(s.k==="meet"?"Submit my stack":s.k==="wa"?"Continue":"Next");
+  const n=STEPS.slice(0,i+1).filter(x=>x.q).length;
   $("bar").style.width=(n/total*100)+"%";
-  $("stepn").textContent=(s.k==="intro"||s.k==="done")?"":`QUESTION ${i} OF ${total}`;
+  $("stepn").textContent=s.q?`QUESTION ${n} OF ${total}`:"";
   let h="";
   if(s.k==="intro"){
     h=`<div class="intro"><video src="cmo-video.mp4" poster="cmo-poster.jpg" controls playsinline preload="metadata" aria-label="A message from Danit about the 2026 growth stack post"></video>
@@ -209,6 +210,7 @@ function show(){
     }
     if(s.t==="many") h+=Object.entries(CATS).map(([c,ts])=>`<div class="group"><h3>${esc(c)}</h3><div class="opts chips">${ts.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div></div>`).join("");
     if(s.t==="meet") h=`<div class="bio"><img src="danit.jpg" alt="Danit Ben Simon" width="96" height="96"><div><p class="bio-lead">I'm Danit Ben Simon, founder of The CMO Club and a B2B growth marketer with <b>8 years</b> in demand gen and ABM at Vendict, Walnut.io, K2view and InfiniGrow.</p><ul class="bio-list"><li><b>$300M</b> in revenue generated</li><li><b>$10M ARR</b> in 6 months with 3 marketers and an army of agents</li><li><b>3 meetings a day</b> booked from emails, LinkedIn and calls</li></ul></div></div><h2 class="q">${esc(s.q)}</h2><div class="opts">${s.o.map(o=>opt("radio",s.k,o,v===o)).join("")}</div>`;
+    if(s.t==="wa") h=`<div class="eyebrow">CMO Club community</div><h2 class="q">Not in our WhatsApp community yet?</h2><p class="hint">This is the time to join. Then come back to finish your stack.</p><p style="margin:8px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://chat.whatsapp.com/DHpwlI67VeiFbwKsjgWK7s?mode=gi_t" target="_blank" rel="noopener">Join CMO Club on WhatsApp</a></p>`;
     if(s.t==="consent") h+=`<div class="opts consent">${opt("checkbox",s.k,s.o,!!v)}</div>`;
     if(s.t==="multi") h+=`<div class="opts">${s.o.map(o=>opt("checkbox",s.k,o,(v||[]).includes(o))).join("")}</div>`;
     if(s.t==="cut") h+=`<div class="opts chips cut">${ALL.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div>`;
