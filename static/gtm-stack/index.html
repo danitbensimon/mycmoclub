@@ -159,8 +159,8 @@ const STEPS=[
  {k:"spend",t:"one",q:"Monthly spend on GTM tools",o:["Under $1K","$1K to $5K","$5K to $15K","$15K+"]},
  {k:"play",t:"long",q:"Which growth play worked best for you in 2026?",h:"Describe it in 1 or 2 sentences.",ph:"Job-change signals → Clay enrichment → 3-step email from the AE within 48 hours"},
  {k:"cut",t:"cut",q:"Which tools did you pay for in 2026 that you're dropping in 2027?",h:"Be honest. This is the part people will read twice."},
- {k:"aitype",t:"multi",q:"Which outreach did AI run for you in 2026?",h:"Tick the ones where AI wrote or sent the outreach for you.",o:["Cold emails","LinkedIn messages and connection requests","Phone calls (AI voice agent)","None yet"]},
- {k:"ai",t:"one",q:"Did that AI outreach (emails, LinkedIn or calls) book real meetings for you?",o:["Yes, it's core to our pipeline","Some, alongside humans","Tried it and churned","Haven't tried"]},
+ {k:"aitype",t:"multi",q:"What does AI SDR mean for you?",h:"Tick the ones that count as AI SDR in your team.",o:["Cold emails","LinkedIn messages and connection requests","Phone calls (AI voice agent)","We don't use an AI SDR"]},
+ {k:"ai",t:"one",q:"Did your AI SDR (emails, LinkedIn or calls) book real meetings for you?",o:["Yes, it's core to our pipeline","Some, alongside humans","Tried it and churned","Haven't tried"]},
  {k:"next",t:"text",q:"Which tool are you adding in 2027?",ph:"Tool name"},
  {k:"quote",t:"long",q:"Finish the sentence for your slide",h:"\"The stack that moved revenue in 2026 was\" (max 140 characters)",ph:"boring: good data, 1 channel, fast follow-up",max:140},
  {k:"consent",t:"consent",q:"Can we feature you in the carousel?",h:"Tick to approve.",o:"I approve using my LinkedIn profile photo, name, title, company and quote on my slide, and tagging me in the post."},
@@ -245,7 +245,7 @@ async function sendHS(){
   const parts=(A.name||"").trim().split(/\s+/), first=parts.shift()||"", last=parts.join(" ");
   const L=(k,v)=>v&&(Array.isArray(v)?v.length:true)?`${k}: ${Array.isArray(v)?v.join(", "):v}`:"";
   const pic=await smallPhoto(photo);
-  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI outreach used",A.aitype),L("AI outreach booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Wants a meeting",A.meet),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
+  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR means",A.aitype),L("AI SDR booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote),L("Feature consent",A.consent),L("Wants a meeting",A.meet),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
   const props={firstname:first,lastname:last,email:A.email||"",company:A.company||"",jobtitle:A.role||"",hs_linkedin_url:A.li||"",message:msg};
   const body=JSON.stringify({fields:Object.entries(props).map(([name,value])=>({objectTypeId:"0-1",name,value:String(value)})),context:{pageUri:"https://www.mycmoclub.com/gtm-stack/",pageName:"CMO Club Growth Stack 2026"}});
   for(const h of HS_HOSTS){try{const r=await fetch(`${h}/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,{method:"POST",headers:{"Content-Type":"application/json"},body});if(r.ok)return true}catch(e){}}
