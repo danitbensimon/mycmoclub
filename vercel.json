@@ -3,9 +3,16 @@
     "api/send-email.ts": {
       "memory": 1024,
       "maxDuration": 10
+    },
+    "api/gtm-stack.ts": {
+      "memory": 1024,
+      "maxDuration": 10
     }
   },
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
   ]
 }

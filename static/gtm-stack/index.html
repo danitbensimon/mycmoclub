@@ -281,11 +281,16 @@ async function sendHS(){
   const parts=(A.name||"").trim().split(/\s+/), first=parts.shift()||"", last=parts.join(" ");
   const L=(k,v)=>v&&(Array.isArray(v)?v.length:true)?`${k}: ${Array.isArray(v)?v.join(", "):v}`:"";
   const pic=await smallPhoto(photo);
-  const msg=["[CMO Club Growth Stack 2026]",L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR means",A.aitype),L("AI SDR booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote&&fullQuote(A.quote)),L("Feature consent",A.consent),L("Wants a meeting",A.meet),L("B2B SaaS",A.saas),L("Monthly marketing budget",A.budget),L("Photo",A.photo),pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
+  const lines=[L("Stage",A.stage),L("Motion",A.motion),L("ACV",A.acv),L("Growth stack",A.stack),L("Other tools",A.other),L("Top channel",A.channel),L("Meetings per month",A.mtg),L("Monthly tool spend",A.spend),L("Best play",A.play),L("Dropping in 2027",A.cut),L("AI SDR means",A.aitype),L("AI SDR booked meetings",A.ai),L("Adding in 2027",A.next),L("Quote",A.quote&&fullQuote(A.quote)),L("Feature consent",A.consent),L("Wants a meeting",A.meet),L("B2B SaaS",A.saas),L("Monthly marketing budget",A.budget),L("Photo",A.photo)].filter(Boolean);
+  const msg=["[CMO Club Growth Stack 2026]",...lines,pic&&("Photo data: "+pic)].filter(Boolean).join(" | ");
   const props={firstname:first,lastname:last,email:A.email||"",company:A.company||"",jobtitle:A.role||"",hs_linkedin_url:A.li||"",message:msg};
   const body=JSON.stringify({fields:Object.entries(props).map(([name,value])=>({objectTypeId:"0-1",name,value:String(value)})),context:{pageUri:"https://www.mycmoclub.com/gtm-stack/",pageName:"CMO Club Growth Stack 2026"}});
-  for(const h of HS_HOSTS){try{const r=await fetch(`${h}/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,{method:"POST",headers:{"Content-Type":"application/json"},body});if(r.ok)return true}catch(e){}}
-  return false;
+  const hs=(async()=>{for(const h of HS_HOSTS){try{const r=await fetch(`${h}/submissions/v3/integration/submit/${HS_PORTAL}/${HS_FORM}`,{method:"POST",headers:{"Content-Type":"application/json"},body});if(r.ok)return true}catch(e){}}return false})();
+  // Backup copy by email, so answers survive when HubSpot can't create a contact
+  const {message,...fields}=props;
+  const backup=fetch("/api/gtm-stack",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields,answers:lines})}).then(r=>r.ok).catch(()=>false);
+  const [a,b]=await Promise.all([hs,backup]);
+  return a||b;
 }
 let sending=false;
 async function go(){
