@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>2026 Growth Stack</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
 <link rel="icon" type="image/png" sizes="32x32" href="/cmo-club-icon-32.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/cmo-club-icon-512.png">
 <link rel="apple-touch-icon" href="/cmo-club-icon-180.png">
@@ -97,6 +98,44 @@ aside{display:grid;gap:10px;width:100%;max-width:420px}
 .intro h1{font-size:clamp(32px,4.6vw,46px)}
 .site{font:600 18px var(--body);color:var(--hot);text-decoration:underline;text-underline-offset:3px}
 @media (max-width:640px){.intro{grid-template-columns:1fr}.intro video{max-width:280px;margin:0 auto}}
+
+/* carousel card preview */
+.cardbox{width:100%;max-width:432px;aspect-ratio:4/5;position:relative;overflow:hidden;border-radius:16px;box-shadow:0 24px 60px -24px rgba(124,82,200,.6)}
+.card{position:absolute;top:0;left:0;width:540px;height:675px;transform-origin:0 0;background:#0f1035;color:#fff;font-family:Outfit,ui-sans-serif,system-ui,sans-serif;overflow:hidden}
+.card .g{position:absolute;border-radius:50%}
+.card .g1{top:-155px;right:-169px;width:440px;height:440px;background:radial-gradient(circle,rgba(124,82,200,.5),rgba(124,82,200,0) 70%)}
+.card .g2{bottom:-204px;left:-178px;width:500px;height:500px;background:radial-gradient(circle,rgba(124,82,200,.45),rgba(124,82,200,0) 70%)}
+.card .g3{bottom:-174px;right:-200px;width:440px;height:440px;background:radial-gradient(circle,rgba(70,90,220,.45),rgba(70,90,220,0) 70%)}
+.c-club{position:absolute;top:9px;left:36px;border:2px solid #d9b25f;border-radius:999px;padding:3px 18px;font-size:19px;font-weight:600;letter-spacing:.24em}
+.c-title{position:absolute;top:48px;left:36px;right:20px;line-height:1.02}
+.c-title b{font-weight:700;color:#f0c56a}
+.c-mk{font-size:56px;letter-spacing:-.03em;white-space:nowrap;height:58px;position:relative}
+.c-face{position:absolute;top:166px;left:14px;width:204px;height:204px;border-radius:50%;border:3px dashed rgba(255,255,255,.6);box-sizing:border-box;background:#22205a center/cover;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.c-face span{font-size:60px;font-weight:600;color:rgba(255,255,255,.75)}.c-face small{font-size:14px;color:rgba(255,255,255,.55)}
+.c-who{position:absolute;top:372px;left:0;width:232px;text-align:center}
+.c-name{font-size:22px;font-weight:600;line-height:1.1;white-space:nowrap}
+.c-role{font-size:15px;color:#b3a8ff;margin-top:3px;line-height:1.2}
+.c-quote{position:absolute;top:166px;left:236px;right:18px;height:250px;display:flex;align-items:center;font-style:italic;font-size:20px;line-height:1.3}
+.c-quote .qm{font-weight:800;color:#9a7bff;font-size:34px;line-height:0;vertical-align:-12px}
+.c-quote b{font-weight:800;color:#f0c56a}
+.c-bottom{position:absolute;top:438px;left:18px;right:18px;height:186px;display:flex;flex-direction:column;gap:12px}
+.c-head{display:flex;align-items:center;gap:12px;margin:0 6px}.c-head i{flex-grow:1;height:1px;background:rgba(217,178,95,.6)}
+.c-head span{font-size:20px;font-weight:600;letter-spacing:.2em;color:#f0c56a;white-space:nowrap}
+.c-mid{flex-grow:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:12px}
+.c-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.c-chips span{display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;border:1.5px solid rgba(255,255,255,.4);font-size:17px;font-weight:500;white-space:nowrap}
+.c-chips span i{width:24px;height:24px;border-radius:50%;background:#7C52C8;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-style:normal}
+.c-chips span.more{color:#f0c56a;border-color:rgba(240,197,106,.6)}
+.c-boxes{display:flex;justify-content:center;gap:12px}
+.c-box{width:222px;display:flex;align-items:center;gap:10px;border-radius:14px;padding:6px 12px;box-sizing:border-box}
+.c-box.d{border:1.5px solid #F08B7A;background:linear-gradient(135deg,rgba(229,72,107,.40),rgba(170,60,140,.28))}
+.c-box.a{border:1.5px solid #4FD39A;background:linear-gradient(135deg,rgba(47,191,113,.40),rgba(40,150,170,.28))}
+.c-box em{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;font-style:normal}
+.c-box.d em{background:#E5677A}.c-box.a em{background:#4FD39A;color:#0f1035}
+.c-box b{display:block;font-size:14px;letter-spacing:.06em}.c-box.d b{color:#FFB3A6}.c-box.a b{color:#9AF0C6}
+.c-box p{margin:0;font-size:15px;line-height:1.2;font-weight:600}.c-box.d p{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.55)}
+.c-line{position:absolute;top:634px;left:24px;right:24px;height:1px;background:rgba(217,178,95,.45)}
+.c-foot{position:absolute;top:645px;left:0;right:0;text-align:center;font-size:16px;font-weight:600;letter-spacing:.1em}.c-foot span{color:#f0c56a}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -121,16 +160,21 @@ aside{display:grid;gap:10px;width:100%;max-width:420px}
 
 <aside aria-label="Your carousel slide preview" id="preview" hidden>
   <div class="eyebrow">Your slide preview</div>
-  <div class="slide">
-    <div class="s-top"><span>GROWTH STACK 2026</span><span id="s-stage">·</span></div>
-    <div class="s-who"><div class="s-face" id="s-face">?</div><div><div class="s-name" id="s-name">Your name</div><div class="s-role" id="s-role">Title · Company</div></div></div>
-    <div><div class="s-label">My 2026 growth stack</div><div class="s-chips" id="s-chips"></div></div>
-    <div id="s-chanwrap" hidden><div class="s-label">Top channel</div><div class="s-val" id="s-channel"></div></div>
-    <div id="s-playwrap" hidden><div class="s-label">Best play</div><div class="s-play" id="s-play"></div></div>
-    <div id="s-cutwrap" hidden><div class="s-label">Dropping in 2027</div><div class="s-chips cut" id="s-cut"></div></div>
-    <div class="s-quote" id="s-quote">"The stack that moved revenue in 2026 was"</div>
-  </div>
-  <div class="cap">This is roughly how you'll appear in the carousel.</div>
+  <div class="cardbox" id="cardbox"><div class="card" id="card">
+    <div class="g g1"></div><div class="g g2"></div><div class="g g3"></div>
+    <div class="c-club">CMO CLUB</div>
+    <div class="c-title"><div style="font-size:44px">Top <b>50</b> B2B Tech</div>
+      <div class="c-mk">Marketing<svg style="position:absolute;left:252px;top:-30px;overflow:visible" width="244" height="108" viewBox="0 0 180 80"><defs><path id="shapecurve" d="M2 66 C 70 66, 125 58, 178 26"></path></defs><text font-family="Outfit, sans-serif" font-weight="700" font-size="40" letter-spacing="2.2" fill="#ffffff"><textPath href="#shapecurve">Shapers</textPath></text><path d="M2 76 C 70 76, 125 68, 178 36" fill="none" stroke="#f0c56a" stroke-width="1.6" stroke-linecap="round" pathLength="100" stroke-dasharray="92 100"></path><g transform="translate(176 30) rotate(-31) scale(0.16)" fill="#f0c56a"><path d="M-70 0 C -70 -10, 60 -12, 75 0 C 60 12, -70 10, -70 0 Z"/><path d="M-5 -6 L -40 -62 L -18 -62 L 30 -6 Z"/><path d="M-5 6 L -40 62 L -18 62 L 30 6 Z"/><path d="M-60 -4 L -78 -30 L -66 -30 L -44 -4 Z"/><path d="M-60 4 L -78 30 L -66 30 L -44 4 Z"/></g></svg></div></div>
+    <div class="c-face" id="s-face"><span id="s-ini">?</span><small>LinkedIn photo</small></div>
+    <div class="c-who"><div class="c-name" id="s-name">Your name</div><div class="c-role" id="s-role">Title @ COMPANY</div></div>
+    <div class="c-quote"><div><span class="qm">“</span> <span id="s-quote"></span> <span class="qm">”</span></div></div>
+    <div class="c-bottom">
+      <div class="c-head"><i></i><span>MY 2026 GROWTH STACK</span><i></i></div>
+      <div class="c-mid"><div class="c-chips" id="s-chips"></div><div class="c-boxes" id="s-boxes"></div></div>
+    </div>
+    <div class="c-line"></div><div class="c-foot">2026 GROWTH STACK BENCHMARK <span>⟶</span></div>
+  </div></div>
+  <div class="cap">This is how your slide will look in the carousel.</div>
 </aside>
 </div>
 
@@ -145,7 +189,7 @@ const CATS={
  "Signals & intent":["Common Room","Warmly","RB2B","6sense","Trigify","UserGems","Unify"],
  "Sequencing & email":["Outreach","Salesloft","Nooks","Orum","Apollo Sequences","Amplemarket","Instantly","Smartlead","lemlist","Reply.io","HubSpot Sequences","Salesforce Sales Engagement","Klenty","Mixmax","Yesware","Woodpecker","Mailshake","Saleshandy","QuickMail","La Growth Machine","Clari Groove","Close"],
  "LinkedIn":["Sales Navigator","HeyReach","Expandi","Dripify","Taplio"],
- "AI SDR & agents":["11x","Artisan","AiSDR","Qualified Piper","Custom Claude / GPT workflows"],
+ "AI SDR & agents":["Obert","11x","Artisan","AiSDR","Qualified Piper","Custom Claude / GPT workflows"],
  "CRM & ops":["HubSpot","Salesforce","Attio","Pipedrive"],
  "Calls & scheduling":["Gong","Fathom","Chili Piper","Calendly","Default"],
  "Ads & ABM":["LinkedIn Ads","Google Ads","Meta Ads","Demandbase","RollWorks","Metadata.io"],
@@ -194,7 +238,7 @@ function opt(type,name,v,checked){return `<label class="opt"><input type="${type
 function show(){
   const s=STEPS[i], st=$("stage");
   st.classList.remove("fade");void st.offsetWidth;st.classList.add("fade");
-  $("preview").hidden=s.k!=="done";
+  $("preview").hidden=s.k!=="done";setTimeout(()=>{render()},0);
   $("back").hidden=i===0||s.k==="done";
   $("next").hidden=s.k==="done";
   $("kbd").hidden=s.t==="long"||s.t==="many"||s.t==="cut"||s.t==="multi"||s.t==="consent"||s.k==="done";
@@ -329,18 +373,24 @@ $("stage").addEventListener("keydown",e=>{
 function render(){
   const n=A.name||"";
   $("s-name").textContent=n||"Your name";
-  $("s-role").textContent=[A.role||"Title",A.company||"Company"].join(" · ");
-  $("s-stage").textContent=A.stage||"·";
+  $("s-role").textContent=(A.role||"Title")+" @ "+(A.company||"Company").toUpperCase();
+  const ini=n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join("")||"?";
   const f=$("s-face");
-  if(photo){f.style.backgroundImage=`url(${photo})`;f.textContent=""}else{f.style.backgroundImage="";f.textContent=(n[0]||"?").toUpperCase()}
+  if(photo){f.style.backgroundImage=`url(${photo})`;f.style.borderStyle="solid";$("s-ini").textContent="";f.querySelector("small").hidden=true}
+  else{f.style.backgroundImage="";f.style.borderStyle="dashed";$("s-ini").textContent=ini;f.querySelector("small").hidden=false}
   const picks=(A.stack||[]).concat((A.other||"").split(",").map(x=>x.trim()).filter(Boolean));
-  const sc=$("s-chips");sc.replaceChildren(...picks.slice(0,6).map(t=>{const s=document.createElement("span");s.textContent=t;return s}));
-  if(picks.length>6){const s=document.createElement("span");s.textContent="+"+(picks.length-6);sc.append(s)}
-  $("s-quote").textContent=`"${fullQuote(A.quote)}"`;
-  const ch=A.channel_other||A.channel||""; $("s-channel").textContent=ch; $("s-chanwrap").hidden=!ch;
-  const pl=(A.play||"").trim(); $("s-play").textContent=pl; $("s-playwrap").hidden=!pl;
-  const cut=(A.cut||[]).slice(0,4); $("s-cut").replaceChildren(...cut.map(t=>{const x=document.createElement("span");x.textContent=t;return x})); $("s-cutwrap").hidden=!cut.length;
+  const sc=$("s-chips");sc.replaceChildren(...picks.slice(0,6).map(t=>{const s=document.createElement("span");const ic=document.createElement("i");ic.textContent=t[0].toUpperCase();s.append(ic,document.createTextNode(t));return s}));
+  if(picks.length>6){const s=document.createElement("span");s.className="more";s.textContent="+"+(picks.length-6)+" more";sc.append(s)}
+  $("s-quote").textContent=fullQuote(A.quote);
+  const bx=$("s-boxes");bx.replaceChildren();
+  const box=(cls,sym,lab,val)=>{const d=document.createElement("div");d.className="c-box "+cls;const e=document.createElement("em");e.textContent=sym;const w=document.createElement("div");const b=document.createElement("b");b.textContent=lab;const p=document.createElement("p");p.textContent=val;w.append(b,p);d.append(e,w);bx.append(d)};
+  const cut=(A.cut||[]).slice(0,3);if(cut.length)box("d","−","DROPPING IN 2027",cut.join(" · "));
+  const nx=(A.next||"").trim();if(nx)box("a","+","ADDING IN 2027",nx);
+  const q=(A.quote||"").trim();$("s-quote").style.fontSize="";const L=fullQuote(A.quote).length;$("s-quote").parentNode.parentNode.style.fontSize=(L<90?24:L<140?21:19)+"px";
+  fit();
 }
+function fit(){const b=$("cardbox");if(b&&b.clientWidth)$("card").style.transform=`scale(${b.clientWidth/540})`}
+addEventListener("resize",fit);
 try{const d=JSON.parse(localStorage.getItem(KEY)||"null");if(d&&d.A&&d.i>0&&d.i<STEPS.length-1){Object.assign(A,d.A);i=d.i}}catch(e){}
 show();render();
 </script>
