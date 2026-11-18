@@ -25,6 +25,12 @@ export const DesktopNav = () => {
           </Link>
         </>
       )}
+      <a
+        href="/gtm-stack/"
+        className="text-zinc-500 text-xs font-medium box-border caret-transparent inline tracking-[0.6px] leading-4 min-h-0 min-w-0 outline-neutral-950/50 uppercase md:block md:min-h-[auto] md:min-w-[auto] hover:text-white"
+      >
+        Top 50 Shapers
+      </a>
       <Link
         to="/vendors"
         className="text-zinc-500 text-xs font-medium box-border caret-transparent inline tracking-[0.6px] leading-4 min-h-0 min-w-0 outline-neutral-950/50 uppercase md:block md:min-h-[auto] md:min-w-[auto] hover:text-white"

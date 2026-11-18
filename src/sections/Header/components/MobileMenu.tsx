@@ -64,6 +64,13 @@ export const MobileMenu = () => {
               >
                 Dinners
               </a>
+              <a
+                href="/gtm-stack/"
+                onClick={closeMenu}
+                className="text-white text-xl font-semibold tracking-wide uppercase hover:text-sky-400 transition-colors border-b border-zinc-700 pb-4"
+              >
+                Top 50 Shapers
+              </a>
               <Link
                 to="/vendors"
                 onClick={closeMenu}
@@ -102,6 +109,13 @@ export const MobileMenu = () => {
               >
                 Home
               </Link>
+              <a
+                href="/gtm-stack/"
+                onClick={closeMenu}
+                className="text-white text-xl font-semibold tracking-wide uppercase hover:text-sky-400 transition-colors border-b border-zinc-700 pb-4"
+              >
+                Top 50 Shapers
+              </a>
               <Link
                 to="/vendors"
                 onClick={closeMenu}
