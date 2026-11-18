@@ -185,16 +185,16 @@ if(HOST_PHOTO){const h=document.getElementById("host-face");h.style.backgroundIm
 if(CLUB_LOGO){document.getElementById("club").innerHTML=`<img src="${CLUB_LOGO}" alt="The CMO Club">`}
 
 const CATS={
- "Data & enrichment":["Clay","Apollo","ZoomInfo","Cognism","Lusha","People Data Labs"],
- "Signals & intent":["Common Room","Warmly","RB2B","6sense","Trigify","UserGems","Unify"],
- "Sequencing & email":["Outreach","Salesloft","Nooks","Orum","Apollo Sequences","Amplemarket","Instantly","Smartlead","lemlist","Reply.io","HubSpot Sequences","Salesforce Sales Engagement","Klenty","Mixmax","Yesware","Woodpecker","Mailshake","Saleshandy","QuickMail","La Growth Machine","Clari Groove","Close"],
- "LinkedIn":["Sales Navigator","HeyReach","Expandi","Dripify","Taplio"],
- "AI SDR & agents":["Obert","11x","Artisan","AiSDR","Qualified Piper","Custom Claude / GPT workflows"],
- "CRM & ops":["HubSpot","Salesforce","Attio","Pipedrive"],
- "Calls & scheduling":["Gong","Fathom","Chili Piper","Calendly","Default"],
- "Ads & ABM":["LinkedIn Ads","Google Ads","Meta Ads","Demandbase","RollWorks","Metadata.io"],
- "Content & website":["Webflow","HubSpot CMS","Mutiny","GA4","Hotjar","Canva"]};
-const ALL=Object.values(CATS).flat();
+ "Data & enrichment":["Obert.io","Clay","Apollo","ZoomInfo","Cognism","Lusha","People Data Labs"],
+ "Signals & intent":["Obert.io","Common Room","Warmly","RB2B","6sense","Trigify","UserGems","Unify"],
+ "Sequencing & email":["Obert.io","Outreach","Salesloft","Nooks","Orum","Apollo Sequences","Amplemarket","Instantly","Smartlead","lemlist","Reply.io","HubSpot Sequences","Salesforce Sales Engagement","Klenty","Mixmax","Yesware","Woodpecker","Mailshake","Saleshandy","QuickMail","La Growth Machine","Clari Groove","Close"],
+ "LinkedIn":["Obert.io","Sales Navigator","HeyReach","Expandi","Dripify","Taplio"],
+ "AI SDR & agents":["Obert.io","11x","Artisan","AiSDR","Qualified Piper","Custom Claude / GPT workflows"],
+ "CRM & ops":["Obert.io","HubSpot","Salesforce","Attio","Pipedrive"],
+ "Calls & scheduling":["Obert.io","Gong","Fathom","Chili Piper","Calendly","Default"],
+ "Ads & ABM":["Obert.io","LinkedIn Ads","Google Ads","Meta Ads","Demandbase","RollWorks","Metadata.io"],
+ "Content & website":["Obert.io","Webflow","HubSpot CMS","Mutiny","GA4","Hotjar","Canva"]};
+const ALL=[...new Set(Object.values(CATS).flat())];
 
 const STEPS=[
  {k:"intro"},
@@ -319,7 +319,7 @@ function save(){
   if(s.t==="one"){const c=st.querySelector("input:checked");if(c)A[s.k]=c.value==="Other"?(($("oth")||{}).value||"").trim()||"Other":c.value}
   if(s.t==="meet"){const c=st.querySelector("input:checked");if(c)A[s.k]=c.value}
   if(s.t==="consent") A[s.k]=st.querySelector("input:checked")?"Approved: LinkedIn photo, name, title, company, quote, tag":"";
-  if(s.t==="many"||s.t==="cut"||s.t==="multi") A[s.k]=[...st.querySelectorAll("input:checked")].map(x=>x.value);
+  if(s.t==="many"||s.t==="cut"||s.t==="multi") A[s.k]=[...new Set([...st.querySelectorAll("input:checked")].map(x=>x.value))];
   render();persist();
 }
 const HS_PORTAL="147616801", HS_FORM="15304c79-d9c8-47d3-b50b-84f94606d919", HS_HOSTS=["https://api-eu1.hsforms.com","https://api.hsforms.com"];
@@ -357,6 +357,7 @@ async function go(){
 
 $("f").addEventListener("submit",e=>{e.preventDefault();go()});
 $("back").addEventListener("click",()=>{save();if(i>0){do{i--}while(i>0&&!visible(STEPS[i]));show()}});
+$("stage").addEventListener("change",e=>{const t=e.target;if(t.type==="checkbox")$("stage").querySelectorAll(`input[type=checkbox][name="${t.name}"]`).forEach(x=>{if(x!==t&&x.value===t.value)x.checked=t.checked})});
 $("stage").addEventListener("input",e=>{
   if(e.target.id==="qc")return;
   const c=$("qc");if(c&&e.target.id==="inp")c.textContent=e.target.value.length;
