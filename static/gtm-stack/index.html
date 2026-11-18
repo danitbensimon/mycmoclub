@@ -102,6 +102,7 @@ aside{display:grid;gap:10px;width:100%;max-width:420px}
 
 .qcard{margin-top:18px;background:#0f1035;border:1px solid rgba(154,123,255,.45);border-radius:16px;padding:18px 22px}.qlab{font:600 14px var(--body);letter-spacing:.14em;color:#f0c56a;margin-bottom:8px}.qtext{font:italic 400 21px/1.4 Outfit,var(--body);color:#fff}.qtext .qm{font-weight:800;color:#9a7bff;font-size:30px;line-height:0;vertical-align:-9px}
 .tbar{display:grid;gap:10px;margin:4px 0 22px}.tbar input{width:100%;box-sizing:border-box}.tadd{display:flex;gap:10px}.tadd input{flex:1}.tadd .btn{padding:12px 22px}.mine{font:600 16px var(--body);border-radius:999px;padding:9px 16px;background:var(--accent);color:var(--accent-ink);border:0;cursor:pointer}
+.cover{display:block;width:100%;max-width:432px;margin:28px auto 0;border-radius:16px;box-shadow:0 24px 60px -24px rgba(124,82,200,.6)}
 /* carousel card preview */
 .cardbox{width:100%;max-width:432px;aspect-ratio:4/5;position:relative;overflow:hidden;border-radius:16px;box-shadow:0 24px 60px -24px rgba(124,82,200,.6)}
 .card{position:absolute;top:0;left:0;width:540px;height:675px;transform-origin:0 0;background:#0f1035;color:#fff;font-family:Outfit,ui-sans-serif,system-ui,sans-serif;overflow:hidden}
@@ -253,7 +254,7 @@ function show(){
     <h1>Which stack <em>drove</em> your growth this year?</h1>
     <p class="lede">Share the tools that drove your growth this year. You'll get your own slide in a LinkedIn carousel.</p>
     <div class="meta"><span>⏱ 3 minutes</span><span>This is for a LinkedIn post. I'll tag you in it.</span></div>
-    <p style="margin:18px 0 0"><a class="site" href="https://www.mycmoclub.com" target="_blank" rel="noopener">mycmoclub.com</a></p></div></div>`;
+    <p style="margin:18px 0 0"><a class="site" href="https://www.mycmoclub.com" target="_blank" rel="noopener">mycmoclub.com</a></p></div></div><img class="cover" src="/gtm-stack/top50-cover.jpg" alt="Top 50 B2B Tech Marketing Shapers: 2026 Growth Stack Benchmark">`;
   } else if(s.k==="done"){
     h=`<div class="eyebrow">Thank you</div><h1>Your stack is in.</h1><p class="lede">I'll tag you when the LinkedIn post goes live.</p>
     ${wantsMeet()&&isSaas()&&(A.budget||"").startsWith("Above")?`<p class="lede" style="margin-top:28px">Let's find a time to talk about working together.</p>
