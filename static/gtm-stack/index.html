@@ -100,6 +100,7 @@ aside{display:grid;gap:10px;width:100%;max-width:420px}
 @media (max-width:640px){.intro{grid-template-columns:1fr}.intro video{max-width:280px;margin:0 auto}}
 
 .qcard{margin-top:18px;background:#0f1035;border:1px solid rgba(154,123,255,.45);border-radius:16px;padding:18px 22px}.qlab{font:600 14px var(--body);letter-spacing:.14em;color:#f0c56a;margin-bottom:8px}.qtext{font:italic 400 21px/1.4 Outfit,var(--body);color:#fff}.qtext .qm{font-weight:800;color:#9a7bff;font-size:30px;line-height:0;vertical-align:-9px}
+.tbar{display:grid;gap:10px;margin:4px 0 22px}.tbar input{width:100%;box-sizing:border-box}.tadd{display:flex;gap:10px}.tadd input{flex:1}.tadd .btn{padding:12px 22px}.mine{font:600 16px var(--body);border-radius:999px;padding:9px 16px;background:var(--accent);color:var(--accent-ink);border:0;cursor:pointer}
 /* carousel card preview */
 .cardbox{width:100%;max-width:432px;aspect-ratio:4/5;position:relative;overflow:hidden;border-radius:16px;box-shadow:0 24px 60px -24px rgba(124,82,200,.6)}
 .card{position:absolute;top:0;left:0;width:540px;height:675px;transform-origin:0 0;background:#0f1035;color:#fff;font-family:Outfit,ui-sans-serif,system-ui,sans-serif;overflow:hidden}
@@ -208,7 +209,6 @@ const STEPS=[
  {k:"motion",t:"one",q:"Your GTM motion",o:["Sales-led","Product-led","Hybrid","Founder-led sales"]},
  {k:"acv",t:"one",q:"Average deal size (ACV)",o:["Under $10K","$10K to $30K","$30K to $100K","$100K+"]},
  {k:"stack",t:"many",q:"Which tools drove your growth in 2026?",h:"Tick the tools that paid back in pipeline, revenue or growth. This list becomes your slide."},
- {k:"other",t:"text",q:"Any tool we missed?",h:"Separate with commas. Skip if none.",ph:"Tool A, Tool B"},
  {k:"wa",t:"wa"},
  {k:"channel",t:"one",q:"Which channel drove the most growth?",o:["Cold email","LinkedIn outbound","Signal-based outbound","Inbound / content","Events & webinars","Paid ads","Partners & referrals","Warm intros / community"],other:true},
  {k:"mtg",t:"one",q:"How many meetings a month do the tools you ticked bring in?",o:["Under 10","10 to 25","25 to 50","50 to 100","100+"]},
@@ -270,6 +270,7 @@ function show(){
       h+=`<div class="opts">${s.o.map(o=>opt("radio",s.k,o,v===o)).join("")}${s.other?opt("radio",s.k,"Other",isOth):""}</div>`;
       if(s.other) h+=`<input type="text" id="oth" placeholder="Type your channel" style="margin-top:12px;max-width:560px" value="${isOth?esc(v):""}" ${isOth?"":"hidden"}>`;
     }
+    if(s.t==="many") h+=`<div class="tbar"><input type="text" id="tsearch" placeholder="Search a tool" autocomplete="off"><div class="tadd"><input type="text" id="tadd" placeholder="Not on the list? Type it and press Add" autocomplete="off"><button type="button" class="btn" id="taddbtn">Add</button></div><div class="opts chips" id="tmine">${othList().map(t=>`<button type="button" class="mine" data-t="${esc(t)}">${esc(t)} ✕</button>`).join("")}</div></div>`;
     if(s.t==="many") h+=Object.entries(CATS).map(([c,ts])=>`<div class="group"><h3>${esc(c)}</h3><div class="opts chips">${ts.map(t=>opt("checkbox",s.k,t,(v||[]).includes(t))).join("")}</div></div>`).join("");
     if(s.t==="meet") h=`<div class="bio"><img src="/gtm-stack/danit.jpg" alt="Danit Ben Simon" width="96" height="96"><div><p class="bio-lead">I'm Danit, founder of The CMO Club, and after <b>8 years</b> running demand gen and ABM at B2B startups like Vendict, Walnut.io and K2view, I'm collecting what works for marketing leaders in 2026.</p></div></div><h2 class="q">${esc(s.q)}</h2><p class="hint">${esc(s.h)}</p><div class="opts">${s.o.map(o=>opt("radio",s.k,o,v===o)).join("")}</div>`;
     if(s.t==="wa") h=`<div class="eyebrow">CMO Club community</div><h2 class="q">Not in our WhatsApp community yet?</h2><p class="hint">This is the time to join. Then come back to finish your stack.</p><p style="margin:8px 0 0"><a class="btn primary" style="display:inline-block;text-decoration:none" href="https://chat.whatsapp.com/DHpwlI67VeiFbwKsjgWK7s?mode=gi_t" target="_blank" rel="noopener">Join CMO Club on WhatsApp</a></p>`;
@@ -340,6 +341,19 @@ async function sendHS(){
   return a||b;
 }
 let sending=false;
+function othList(){return (A.other||"").split(",").map(x=>x.trim()).filter(Boolean)}
+function setOth(list){A.other=[...new Set(list)].join(", ");persist();render()}
+function addTool(){const inp=$("tadd");if(!inp)return;const v=inp.value.trim();if(!v)return;
+  const hit=[...$("stage").querySelectorAll('input[name="stack"]')].filter(x=>x.value.toLowerCase()===v.toLowerCase());
+  if(hit.length){hit.forEach(x=>x.checked=true);save()}else setOth(othList().concat(v));
+  inp.value="";show()}
+$("stage").addEventListener("click",e=>{
+  if(e.target.id==="taddbtn"){e.preventDefault();addTool()}
+  const m=e.target.closest&&e.target.closest(".mine");if(m){e.preventDefault();setOth(othList().filter(t=>t!==m.dataset.t));show()}
+});
+$("stage").addEventListener("input",e=>{if(e.target.id!=="tsearch")return;const q=e.target.value.trim().toLowerCase();
+  $("stage").querySelectorAll(".group").forEach(g=>{let any=false;g.querySelectorAll(".opt").forEach(o=>{const ok=!q||o.textContent.toLowerCase().includes(q);o.style.display=ok?"":"none";any=any||ok});g.style.display=any?"":"none"})});
+$("stage").addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.target.id==="tadd"||e.target.id==="tsearch")){e.preventDefault();e.stopPropagation();if(e.target.id==="tadd")addTool()}},true);
 async function go(){
   save();const s=STEPS[i];
   if(s.k==="name"&&!(A.name||"").trim()){$("stage").querySelector("#inp").focus();return}
