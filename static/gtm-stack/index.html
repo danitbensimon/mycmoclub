@@ -99,6 +99,7 @@ aside{display:grid;gap:10px;width:100%;max-width:420px}
 .site{font:600 18px var(--body);color:var(--hot);text-decoration:underline;text-underline-offset:3px}
 @media (max-width:640px){.intro{grid-template-columns:1fr}.intro video{max-width:280px;margin:0 auto}}
 
+.qcard{margin-top:18px;background:#0f1035;border:1px solid rgba(154,123,255,.45);border-radius:16px;padding:18px 22px}.qlab{font:600 14px var(--body);letter-spacing:.14em;color:#f0c56a;margin-bottom:8px}.qtext{font:italic 400 21px/1.4 Outfit,var(--body);color:#fff}.qtext .qm{font-weight:800;color:#9a7bff;font-size:30px;line-height:0;vertical-align:-9px}
 /* carousel card preview */
 .cardbox{width:100%;max-width:432px;aspect-ratio:4/5;position:relative;overflow:hidden;border-radius:16px;box-shadow:0 24px 60px -24px rgba(124,82,200,.6)}
 .card{position:absolute;top:0;left:0;width:540px;height:675px;transform-origin:0 0;background:#0f1035;color:#fff;font-family:Outfit,ui-sans-serif,system-ui,sans-serif;overflow:hidden}
@@ -217,7 +218,7 @@ const STEPS=[
  {k:"aitype",t:"multi",q:"What does AI SDR mean for you?",h:"Tick the ones that count as AI SDR in your team.",o:["Cold emails","LinkedIn messages and connection requests","Phone calls (AI voice agent)","We don't use an AI SDR"]},
  {k:"ai",t:"one",q:"Did your AI SDR (emails, LinkedIn or calls) book real meetings for you?",o:["Yes, it's core to our pipeline","Some, alongside humans","Tried it and churned","Haven't tried"]},
  {k:"next",t:"text",q:"Which tool are you adding in 2027?",ph:"Tool name"},
- {k:"quote",t:"long",q:"Finish the sentence for your slide",h:"Your words continue this sentence: \"The stack that moved revenue in 2026 was\" (max 140 characters)",ph:"boring: good data, 1 channel, fast follow-up",max:140},
+ {k:"quote",t:"long",q:"Your quote on the slide",h:"Finish the sentence below. It will be published on your slide exactly as you write it (max 140 characters).",ph:"boring: good data, 1 channel, fast follow-up",max:140},
  {k:"consent",t:"consent",q:"Can we feature you in the carousel?",h:"Tick to approve.",o:"I approve using my LinkedIn profile photo, name, title, company and quote on my slide, and tagging me in the post."},
  {k:"meet",t:"meet",q:"Want to work with me?",h:"Book a meeting with me and we'll see how I can help your growth.",o:["Yes, I want to book a meeting","Not now"]},
  {k:"saas",t:"one",q:"Are you a B2B SaaS platform?",o:["Yes","No"]},
@@ -264,7 +265,7 @@ function show(){
     h=`<h2 class="q">${esc(s.q)}</h2>${s.h?`<p class="hint">${esc(s.h)}</p>`:""}`;
     const v=A[s.k];
     if(s.t==="text") h+=`<input type="text" id="inp" placeholder="${esc(s.ph||"")}" value="${esc(v||"")}">`;
-    if(s.t==="long") h+=`<textarea id="inp" ${s.max?`maxlength="${s.max}"`:""} placeholder="${esc(s.ph||"")}">${esc(v||"")}</textarea>${s.max?`<div class="count"><span id="qc">${(v||"").length}</span>/${s.max}</div>`:""}${s.k==="quote"?`<p class="hint" style="margin-top:12px">On your slide: <span id="qprev" style="color:var(--fg)">${esc(fullQuote(v))}</span></p>`:""}`;
+    if(s.t==="long") h+=`<textarea id="inp" ${s.max?`maxlength="${s.max}"`:""} placeholder="${esc(s.ph||"")}">${esc(v||"")}</textarea>${s.max?`<div class="count"><span id="qc">${(v||"").length}</span>/${s.max}</div>`:""}${s.k==="quote"?`<div class="qcard"><div class="qlab">HOW IT WILL APPEAR ON YOUR SLIDE</div><div class="qtext"><span class="qm">“</span> <span id="qprev">${esc(fullQuote(v))}</span> <span class="qm">”</span></div></div>`:""}`;
     if(s.t==="one"){
       const isOth=s.other&&v&&!s.o.includes(v);
       h+=`<div class="opts">${s.o.map(o=>opt("radio",s.k,o,v===o)).join("")}${s.other?opt("radio",s.k,"Other",isOth):""}</div>`;
